@@ -13,6 +13,7 @@ main_module.config(function($routeProvider){
         controller:'controllerlogin'
           
         }).when('/list',{
-            templateUrl:'partial_dataView.html'
+            templateUrl:'partial_dataView.html',
+            controller:'friendDataController'
       });             
 });

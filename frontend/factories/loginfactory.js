@@ -16,6 +16,13 @@ main_module.factory('factorylogin',function($resource){
     
     }
     
+    factory.StartRegister = function(data){
+    
+        var req = $resource('/friends/register',{},{'post':{method:'POST'}});
+
+        return req.post(data).$promise;
+    }
+    
     //factory must always return an abject!!!
     
     return factory;

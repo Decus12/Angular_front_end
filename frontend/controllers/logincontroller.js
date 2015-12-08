@@ -23,7 +23,6 @@ main_module.controller('controllerlogin',function($scope, factorylogin,$location
          var waitPromise = factorylogin.startLogin(temp);
         //wait the response  from server
         waitPromise.then(function(data){
-            console.log('success');
             $location.path('/list');
             //code inside this block will be called when success response
             //from server receives
@@ -35,5 +34,22 @@ main_module.controller('controllerlogin',function($scope, factorylogin,$location
      $scope.registerClicked = function(){
          
          console.log('register pressed');
+        var temp = {
+        
+            username:$scope.user,
+            password:$scope.pass
+        }
+         
+         var response = factorylogin.StartRegister(temp);
+            response.then(success,error)
     }
 });
+
+function success(data){
+    alert('New user registered. You can now login');
+
+}
+
+function error(data){
+    alert('Register person failed. Username is already in use');
+}
