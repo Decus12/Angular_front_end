@@ -4,26 +4,35 @@ var main_module = angular.module('main_module',['ngRoute','ngResource','flash'])
 
 //This function will check if user is logged in or not. This function is used
 //in the router below in resolve attribute
-function loginRequired($q,$resource,$location){
-
-    //create a promise
+function loginRequired($q,$resource,$location,$http){
+    console.log('loginRequired Called');
+    //Create a promise
     var deferred = $q.defer();
+    $http.defaults.headers.common['x-access-token'] = sessionStorage['token'];
     $resource('/isLogged').query().$promise.then(
+    //Success function
+    function(){
         //Mark the promise to be solved (or resolved)
-    function success(){
         deferred.resolve();
-        return deferred;},
-    function fail(){
+        return deferred;
+        
+    },
+    //Fail case
+    function(){
+        
         //Mark promise to be failed
         deferred.reject();
         //Go back to root context
         $location.path('/');
         return deferred;
     });
-
+    
 }
 
-
+main_module.run(function($http){
+    
+    $http.defaults.headers.common['cache-control'] = 'private, no-store, must-revalidate';
+});
 
 //Create basic configuration for our angular app.
 //Configuration includes USUALLY a router for our views.
@@ -45,7 +54,7 @@ main_module.config(function($routeProvider){
         
         templateUrl:'partial_editView.html',
         controller:'editController',
-        resolve:{loginRequired:loginRequired}    
+        resolve:{loginRequired:loginRequired}
         
     }).when('/delete',{
         
@@ -58,6 +67,7 @@ main_module.config(function($routeProvider){
         templateUrl:'partial_addView.html',
         controller:'addController',
         resolve:{loginRequired:loginRequired}
-    });;
+    });
+    
     
 });

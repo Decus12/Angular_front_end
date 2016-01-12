@@ -31,7 +31,6 @@ main_module.factory('friendDataFactory',function($resource,$http){
     //Updates the data to back end
     factory.updateData = function(data){
         $http.defaults.headers.common['x-access-token'] = sessionStorage['token'];
-        
         var resource = $resource('/persons',{},{'put':{method:'PUT'}});
         return resource.put(data).$promise;
     }
@@ -64,14 +63,12 @@ main_module.factory('friendDataFactory',function($resource,$http){
     //Updates the data to back end
     factory.insertData = function(data){
         $http.defaults.headers.common['x-access-token'] = sessionStorage['token'];
-        
         var resource = $resource('/persons',{},{'post':{method:'POST'}});
         return resource.post(data).$promise;
     }
     
     factory.search = function(term){
         $http.defaults.headers.common['x-access-token'] = sessionStorage['token'];
-        
         var resource = $resource('/persons/search/',{name:term},{'get':{method:'GET'}});
         return resource.query().$promise;
     }
